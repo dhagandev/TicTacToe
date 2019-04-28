@@ -60,6 +60,10 @@ let ticTacToe = {
 		let col = prompt("Insert col: ");
 		col = parseInt(col);
 
+		//Need to check that the input is proper
+		//Open position on the board
+		//Empty space
+
 		return [row - 1, col - 1];
 	},
 

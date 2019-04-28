@@ -3,8 +3,28 @@
 	<head>
 		<title>Tic Tac Toe</title>
 		<script defer src="js/main.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 		<link href="css/styles.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
+		<h1>Tic-Tac-Toe</h1>
+		<section class="winnings clearfix">
+			<div id="games-played">Games Played: 0</div>
+			<div id="p1-win">Player 1 Wins: 0</div>
+			<div id="p2-win">Player 2 Wins: 0</div>
+			<div id="ai-win">AI Wins: 0</div>
+		</section>
+		<div class = "main">
+			<section class = "homeScreen">
+				<p class = "instructions">
+					Welcome to Tic-Tac-Toe! The game is very simple, get three of your pieces in a row before the other player. The first player will always be represented by an X and the second by an O. You have a 3 x 3 grid to place your pieces. Once an empty cell has been filled you cannot put a piece there. You ready to try? Press a button to begin!
+				</p>
+				<section class="btn-area">
+					<div class="btn-two-player">Click me to play with a friend!</div>
+					<div class="btn-ai">Click me to play with an AI!</div>
+				</section>
+			</section>
+		</div>
 	</body>
 </html>
+
