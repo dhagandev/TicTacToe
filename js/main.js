@@ -145,15 +145,24 @@ let ticTacToe = {
 	}
 };
 
+let aiBtn;
+let aiWrapper;
+let friendBtn;
+let friendWrapper;
+let instructions;
 
 function connectButtons() {
-	let aiBtn = document.querySelector(".ai");
+	aiBtn = document.querySelector(".ai");
 	aiBtn.addEventListener('click', setUpAi);
 
-	let friendBtn = document.querySelector(".friend");
+	aiWrapper = document.querySelector(".wrapAI");
+
+	friendBtn = document.querySelector(".friend");
 	friendBtn.addEventListener('click', setUpFriend);
 
+	friendWrapper = document.querySelector(".wrapFriend");
 
+	instructions = document.querySelector(".instructions");
 }
 
 function setUpAi() {
@@ -162,6 +171,13 @@ function setUpAi() {
 
 function setUpFriend() {
 	alert("Ready to play with a friend!");
+
+	aiWrapper.classList.add("wrapper-closed");
+	aiWrapper.classList.remove("wrapper");
+	friendWrapper.classList.add("wrapper-closed");
+	friendWrapper.classList.remove("wrapper");
+
+	instructions.style.visibility = "hidden";
 }
 
 connectButtons();

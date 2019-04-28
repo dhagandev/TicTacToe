@@ -51,6 +51,7 @@ h1 {
 	padding: 50px 0;
 	border-radius: 20px;
 	background: #C38D9E;
+	height: 350px;
 }
 
 .instructions {
@@ -61,16 +62,23 @@ h1 {
 .wrapper {
 	position: relative;
 	overflow: hidden;
-	width: 300px;
-	height: 50px;
+	width: 310px;
+	height: 55px;
 }
 
-.wrapper:hover .ai {
+.wrapper-closed {
+	position: relative;
+	overflow: hidden;
+	width: 310px;
+	height: 55px;
+}
+
+.wrapper-closed .ai {
 	transition: 1s;
 	left: -500px;
 }
 
-.wrapper:hover .friend {
+.wrapper-closed .friend {
 	transition: 1s;
 	right: -500px;
 }
@@ -84,7 +92,9 @@ h1 {
 }
 
 .ai {
+	border: 1px solid #E8A87C;
 	border-radius: 0 20px 20px 0;
+	border-left: 0px;
 	position: absolute;
 	width: 300px;
 	left: 0;
@@ -92,7 +102,9 @@ h1 {
 }
 
 .friend{
+	border: 1px solid #E8A87C;
 	border-radius: 20px 0 0 20px;
+	border-right: 0px;
 	position: absolute;
 	width: 300px;
 	right: 0;
