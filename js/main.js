@@ -21,18 +21,18 @@ let ticTacToe = {
 
 	playGame: function() {
 		this.initGame();
-		while(this.winner === null && !this.boardIsFull()) {
-			let position = this.getInput();
-			this.inputPiece(position);
-			this.lastPiece = position;
-			if (this.isThereAWinner()) {
-				this.winner = this.currentPlayer;
-			}
-			else {
-				this.switchPlayers();
-			}
-			this.render();
-		}
+		// while(this.winner === null && !this.boardIsFull()) {
+		// 	let position = this.getInput();
+		// 	this.inputPiece(position);
+		// 	this.lastPiece = position;
+		// 	if (this.isThereAWinner()) {
+		// 		this.winner = this.currentPlayer;
+		// 	}
+		// 	else {
+		// 		this.switchPlayers();
+		// 	}
+		// 	this.render();
+		// }
 
 	},
 
@@ -145,4 +145,24 @@ let ticTacToe = {
 	}
 };
 
+
+function connectButtons() {
+	let aiBtn = document.querySelector(".ai");
+	aiBtn.addEventListener('click', setUpAi);
+
+	let friendBtn = document.querySelector(".friend");
+	friendBtn.addEventListener('click', setUpFriend);
+
+
+}
+
+function setUpAi() {
+	alert("Sorry! The AI functionality is not set up yet!");
+}
+
+function setUpFriend() {
+	alert("Ready to play with a friend!");
+}
+
+connectButtons();
 ticTacToe.playGame();
