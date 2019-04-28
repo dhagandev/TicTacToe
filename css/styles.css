@@ -47,12 +47,22 @@ h1 {
 	line-height: 50px;
 }
 
+.homeScreen {
+	padding: 50px 0;
+	border-radius: 20px;
+	background: #C38D9E;
+}
+
+.instructions {
+	margin: 0 100px 50px;
+	font-size: 26px;
+}
+
 .wrapper {
 	position: relative;
 	overflow: hidden;
 	width: 300px;
 	height: 50px;
-	border: 1px solid black;
 }
 
 .wrapper:hover .ai {
@@ -65,8 +75,15 @@ h1 {
 	right: -500px;
 }
 
-.ai {
+.wrapAI {
 	float: left;
+}
+
+.wrapFriend {
+	float: right;
+}
+
+.ai {
 	border-radius: 0 20px 20px 0;
 	position: absolute;
 	width: 300px;
@@ -75,7 +92,6 @@ h1 {
 }
 
 .friend{
-	float: right;
 	border-radius: 20px 0 0 20px;
 	position: absolute;
 	width: 300px;
