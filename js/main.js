@@ -13,6 +13,10 @@ const DIRECTIONS = {
 	DOWNRIGHT: [1, 1]
 };
 
+let gamesPlayed = 0;
+let p1wins = 0;
+let p2wins = 0;
+
 let ticTacToe = {
 	board: null,
 	currentPlayer: null,
@@ -20,26 +24,12 @@ let ticTacToe = {
 	lastPiece: null,
 	winner: null,
 
-	playGame: function() {
-		this.initGame();
-		// while(this.winner === null && !this.boardIsFull()) {
-		// let position = this.processInput();
-		// 	this.inputPiece(position);
-		// 	this.lastPieceLoc = position;
-		// 	if (this.isThereAWinner()) {
-		// 		this.winner = this.currentPlayer;
-		// 	}
-		// 	else {
-		// 		this.switchPlayers();
-		// 	}
-			// this.render();
-		// }
-
-	},
-
 	initGame: function() {
 		this.currentPlayer = P1;
 		this.board = this.createBoard();
+		this.lastPiece = null;
+		this.lastPieceLoc = null;
+		this.winner = null;
 	},
 
 	createBoard: function() {
@@ -59,29 +49,44 @@ let ticTacToe = {
 		let r = cell.getAttribute("row");
 		let c = cell.getAttribute("col");
 
-		console.log("Processing Input");
 		if (this.isOpenPosition([r - 1, c - 1])) {
-			console.log("Position is open");
 			if (this.winner === null) {
-				console.log("Winner is null");
 				if (!this.boardIsFull()) {
-					console.log("Board is not full");
 					this.lastPieceLoc = [r - 1, c - 1];
 					this.lastPiece = cell;
 					this.inputPiece(this.lastPieceLoc);
 					if (this.isThereAWinner()) {
 						this.winner = this.currentPlayer;
+						let playerString;
+						if (this.currentPlayer === P1) {
+							playerString = "Player 1";
+							currentPlayerElem.classList.add("red");
+							currentPlayerElem.classList.remove("blue");
+							p1wins++;
+						}
+						else {
+							playerString = "Player 2";
+							currentPlayerElem.classList.add("blue");
+							currentPlayerElem.classList.remove("red");
+							p2wins++;
+						}
+						currentPlayerElem.innerHTML = playerString + " won!";
+						gamesPlayed++;
+						updateWinBar();
+						endGameButtons();
 					}
 					else {
-						this.switchPlayers();
+						if(this.boardIsFull()) {
+							currentPlayerElem.innerHTML = "Game is tied!";
+							gamesPlayed++;
+							updateWinBar();
+							endGameButtons();
+						}
+						else {
+							this.switchPlayers();
+						}
 					}
 				}
-				else {
-					//Display tie game
-				}
-			}
-			else {
-				//Display winner
 			}
 		}
 		else {
@@ -102,7 +107,19 @@ let ticTacToe = {
 	},
 
 	switchPlayers: function() {
-		this.currentPlayer === P1 ? this.currentPlayer = P2 : this.currentPlayer = P1;
+		if (this.currentPlayer === P1) {
+			this.currentPlayer = P2;
+			currentPlayerElem.classList.add("blue");
+			currentPlayerElem.classList.remove("red");
+			currentPlayerElem.innerHTML = "Player 2!";
+		}
+		else {
+			this.currentPlayer = P1;
+			currentPlayerElem.classList.add("red");
+			currentPlayerElem.classList.remove("blue");
+			currentPlayerElem.innerHTML = "Player 1!";
+		}
+
 	},
 
 	boardIsFull: function() {
@@ -168,10 +185,6 @@ let ticTacToe = {
 
 	isValidPosition: function(position) {
 		return position[0] >= 0 && position[0] < BOARD_SIZE && position[1] >= 0 && position[1] < BOARD_SIZE;
-	},
-
-	render: function() {
-		console.log(this.board);
 	}
 };
 
@@ -181,6 +194,12 @@ let friendBtn;
 let friendWrapper;
 let instructions;
 let gamePlay;
+let gameBoard;
+let endBtns;
+let currentPlayerElem;
+let gamesPlayedView;
+let p1winView;
+let p2winView;
 
 function connectButtons() {
 	aiBtn = document.querySelector(".ai");
@@ -194,6 +213,24 @@ function connectButtons() {
 	friendWrapper = document.querySelector(".wrapFriend");
 
 	instructions = document.querySelector(".instructions");
+	endBtns = document.querySelector(".endBtns");
+
+	currentPlayerElem = document.querySelector(".currPlayer");
+
+	setUpWinBar();
+	updateWinBar();
+}
+
+function setUpWinBar() {
+	gamesPlayedView = document.querySelector("#games-played");	
+	p1winView = document.querySelector("#p1-win");
+	p2winView = document.querySelector("#p2-win");
+}
+
+function updateWinBar() {
+	gamesPlayedView.textContent = "Games Played: " + gamesPlayed;
+	p1winView.textContent = "Player 1 Wins: " + p1wins;
+	p2winView.textContent = "Player 2 Wins: " + p2wins;
 }
 
 function setUpAi() {
@@ -201,6 +238,7 @@ function setUpAi() {
 }
 
 function setUpFriend() {
+	ticTacToe.initGame();
 	aiWrapper.classList.add("wrapper-closed");
 	aiWrapper.classList.remove("wrapper");
 	friendWrapper.classList.add("wrapper-closed");
@@ -211,7 +249,7 @@ function setUpFriend() {
 }
 
 function drawBoard() {
-	let gameBoard = document.createElement("div");
+	gameBoard = document.createElement("div");
 	gameBoard.classList.add("game-board");
 
 	let row = 1;
@@ -233,17 +271,70 @@ function drawBoard() {
 		col++;
 	}
 
-	// for (let cellR = 0; cellR < BOARD_SIZE; cellR++) {
-	// 	for (let cellC = 0; cellC < BOARD_SIZE; cellC) {
-	// 		let cellSpace = document.createElement("div");
-	// 		cellSpace.classList.add("game-cell");
-	// 		// cellSpace.setAttribute("row", cellR);
-	// 		// cellSpace.setAttribute("col", cellC)
-	// 		gameBoard.appendChild(cellSpace);
-	// 	}
-	// }
 	gamePlay.appendChild(gameBoard);
+	currentPlayerElem.classList.add("red");
+	currentPlayerElem.innerHTML = "Player 1!";
+}
+
+function endGameButtons() {
+	let btnWrapperReset = document.createElement("div");
+	btnWrapperReset.classList.add("wrapper");
+	btnWrapperReset.classList.add("wrapReset");
+
+	let btnReset = document.createElement("div");
+	btnReset.classList.add("btn");
+	btnReset.classList.add("slider");
+	btnReset.classList.add("reset");
+	btnReset.textContent = "Play again?";
+
+	btnWrapperReset.appendChild(btnReset);
+
+	let btnWrapperEndAI = document.createElement("div");
+	btnWrapperEndAI.classList.add("wrapper");
+	btnWrapperEndAI.classList.add("wrapEndAI");
+
+	let btnEndAI = document.createElement("div");
+	btnEndAI.classList.add("btn");
+	btnEndAI.classList.add("slider");
+	btnEndAI.classList.add("endAI");
+	btnEndAI.textContent = "Challenge Computer?";
+
+	btnWrapperEndAI.appendChild(btnEndAI);
+
+	let btnWrapperEndMain = document.createElement("div");
+	btnWrapperEndMain.classList.add("wrapper");
+	btnWrapperEndMain.classList.add("wrapEndMain");
+
+	let btnEndMain = document.createElement("div");
+	btnEndMain.classList.add("btn");
+	btnEndMain.classList.add("slider");
+	btnEndMain.classList.add("endMain");
+	btnEndMain.textContent = "Main Menu";
+
+	btnWrapperEndMain.appendChild(btnEndMain);
+
+	btnEndMain.addEventListener('click', endMainFun);
+	btnReset.addEventListener('click', function() { 
+		ticTacToe.initGame();
+		gamePlay.removeChild(gamePlay.childNodes[0]);
+		drawBoard();
+		endBtns.innerHTML = "";
+	});
+	btnEndAI.addEventListener('click', setUpAi);
+
+	endBtns.appendChild(btnWrapperReset);
+	endBtns.appendChild(btnWrapperEndAI);
+	endBtns.appendChild(btnWrapperEndMain);
+}
+
+function endMainFun() {
+	gamePlay.removeChild(gamePlay.childNodes[0]);
+	endBtns.innerHTML = "";
+	instructions.style.visibility = "visible";
+	aiWrapper.classList.add("wrapper");
+	aiWrapper.classList.remove("wrapper-closed");
+	friendWrapper.classList.add("wrapper");
+	friendWrapper.classList.remove("wrapper-closed");
 }
 
 connectButtons();
-ticTacToe.initGame();

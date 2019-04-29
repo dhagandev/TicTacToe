@@ -147,7 +147,6 @@ h1 {
   }
 }
 
-
 .game-board {
 	width: 400px;
 	height: 400px;
@@ -165,4 +164,54 @@ h1 {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.wrapReset {
+	float: right;
+	margin-top: -14em;
+}
+
+.reset {
+	border: 1px solid #E8A87C;
+	border-radius: 20px 0 0 20px;
+	border-right: 0px;
+	position: absolute;
+	width: 250px;
+	right: 0;
+	transition: 1s;
+}
+
+.wrapEndAI {
+	float: right;
+	margin-top: -10em;
+}
+
+.endAI {
+	border: 1px solid #E8A87C;
+	border-radius: 20px 0 0 20px;
+	border-right: 0px;
+	position: absolute;
+	width: 250px;
+	right: 0;
+	transition: 1s;
+}
+
+.wrapEndMain {
+	float: right;
+	margin-top: -6em;
+}
+
+.endMain {
+	border: 1px solid #E8A87C;
+	border-radius: 20px 0 0 20px;
+	border-right: 0px;
+	position: absolute;
+	width: 250px;
+	right: 0;
+	transition: 1s;
+}
+
+.currPlayer {
+	font-size: 60px;
+	transform: rotate(300deg) translate(40px, -425px);
 }
