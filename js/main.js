@@ -16,22 +16,23 @@ const DIRECTIONS = {
 let ticTacToe = {
 	board: null,
 	currentPlayer: null,
+	lastPieceLoc: null,
 	lastPiece: null,
 	winner: null,
 
 	playGame: function() {
 		this.initGame();
 		// while(this.winner === null && !this.boardIsFull()) {
-		// 	let position = this.getInput();
+		// let position = this.processInput();
 		// 	this.inputPiece(position);
-		// 	this.lastPiece = position;
+		// 	this.lastPieceLoc = position;
 		// 	if (this.isThereAWinner()) {
 		// 		this.winner = this.currentPlayer;
 		// 	}
 		// 	else {
 		// 		this.switchPlayers();
 		// 	}
-		// 	this.render();
+			// this.render();
 		// }
 
 	},
@@ -54,21 +55,50 @@ let ticTacToe = {
 		return newBoard;
 	},
 
-	getInput: function() {
-		let row = prompt("Insert row: ");
-		row = parseInt(row);
-		let col = prompt("Insert col: ");
-		col = parseInt(col);
+	processInput: function(cell) {
+		let r = cell.getAttribute("row");
+		let c = cell.getAttribute("col");
 
-		//Need to check that the input is proper
-		//Open position on the board
-		//Empty space
-
-		return [row - 1, col - 1];
+		console.log("Processing Input");
+		if (this.isOpenPosition([r - 1, c - 1])) {
+			console.log("Position is open");
+			if (this.winner === null) {
+				console.log("Winner is null");
+				if (!this.boardIsFull()) {
+					console.log("Board is not full");
+					this.lastPieceLoc = [r - 1, c - 1];
+					this.lastPiece = cell;
+					this.inputPiece(this.lastPieceLoc);
+					if (this.isThereAWinner()) {
+						this.winner = this.currentPlayer;
+					}
+					else {
+						this.switchPlayers();
+					}
+				}
+				else {
+					//Display tie game
+				}
+			}
+			else {
+				//Display winner
+			}
+		}
+		else {
+			alert("That spot has been taken!");
+		}
 	},
 
 	inputPiece: function(location) {
 		this.board[location[0]][location[1]] = this.currentPlayer;
+		if (this.currentPlayer === P1) {
+			this.lastPiece.textContent = "x";
+			this.lastPiece.classList.add("red");
+		}
+		else {
+			this.lastPiece.textContent = "0";
+			this.lastPiece.classList.add("blue");
+		}
 	},
 
 	switchPlayers: function() {
@@ -120,7 +150,7 @@ let ticTacToe = {
 
 	countInDir: function(dir) {
 		let count = 0;
-		let modifiablePosition = [this.lastPiece[0], this.lastPiece[1]];
+		let modifiablePosition = [this.lastPieceLoc[0], this.lastPieceLoc[1]];
 		let newRow = modifiablePosition[0] + dir[0];
 		let newCol = modifiablePosition[1] + dir[1];
 		while(this.isValidPosition([newRow, newCol]) && this.board[newRow][newCol] === this.currentPlayer) {
@@ -150,6 +180,7 @@ let aiWrapper;
 let friendBtn;
 let friendWrapper;
 let instructions;
+let gamePlay;
 
 function connectButtons() {
 	aiBtn = document.querySelector(".ai");
@@ -170,15 +201,49 @@ function setUpAi() {
 }
 
 function setUpFriend() {
-	alert("Ready to play with a friend!");
-
 	aiWrapper.classList.add("wrapper-closed");
 	aiWrapper.classList.remove("wrapper");
 	friendWrapper.classList.add("wrapper-closed");
 	friendWrapper.classList.remove("wrapper");
-
 	instructions.style.visibility = "hidden";
+	gamePlay = document.querySelector(".gamePlay");
+	drawBoard();
+}
+
+function drawBoard() {
+	let gameBoard = document.createElement("div");
+	gameBoard.classList.add("game-board");
+
+	let row = 1;
+	let col = 1;
+	for (let cell = 0; cell < BOARD_SIZE * BOARD_SIZE; cell++) {
+		let cellSpace = document.createElement("div");
+		cellSpace.classList.add("game-cell");
+		cellSpace.setAttribute("row", row);
+		cellSpace.setAttribute("col", col);
+		cellSpace.addEventListener('click', function () {
+			ticTacToe.processInput(this);
+		})
+		gameBoard.appendChild(cellSpace);
+
+		if (col % 3 === 0) {
+			row++;
+			col = 0;
+		}
+		col++;
+	}
+
+	// for (let cellR = 0; cellR < BOARD_SIZE; cellR++) {
+	// 	for (let cellC = 0; cellC < BOARD_SIZE; cellC) {
+	// 		let cellSpace = document.createElement("div");
+	// 		cellSpace.classList.add("game-cell");
+	// 		// cellSpace.setAttribute("row", cellR);
+	// 		// cellSpace.setAttribute("col", cellC)
+	// 		gameBoard.appendChild(cellSpace);
+	// 	}
+	// }
+	gamePlay.appendChild(gameBoard);
 }
 
 connectButtons();
-ticTacToe.playGame();
+ticTacToe.initGame();

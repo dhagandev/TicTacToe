@@ -51,12 +51,16 @@ h1 {
 	padding: 50px 0;
 	border-radius: 20px;
 	background: #C38D9E;
-	height: 350px;
+	height: 425px;
 }
 
 .instructions {
-	margin: 0 100px 50px;
-	font-size: 26px;
+	margin: 0 100px 60px;
+	font-size: 30px;
+}
+
+.btn-area {
+	margin-top: 85px;
 }
 
 .wrapper {
@@ -109,4 +113,56 @@ h1 {
 	width: 300px;
 	right: 0;
 	transition: 1s;
+}
+
+.red {
+	font-size: 80px;
+	color: #ffffff;
+	animation: glowRed 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glowRed {
+	from {
+    text-shadow: 0 0 10px #b3003c, 0 0 20px #b3003c, 0 0 30px #e6004d, 0 0 40px #e6004d, 0 0 50px #e6004d, 0 0 60px #e6004d, 0 0 70px #e6004d;
+  }
+  
+  to {
+    text-shadow: 0 0 20px #b3003c, 0 0 30px #ff4d88, 0 0 40px #ff4d88, 0 0 50px #ff4d88, 0 0 60px #ff4d88, 0 0 70px #ff4d88, 0 0 80px #ff4d88;
+  }
+}
+
+.blue {
+	font-size: 80px;
+	color: #ffffff;
+	animation: glowBlue 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glowBlue {
+	from {
+    text-shadow: 0 0 10px #1ebbd7, 0 0 20px #1ebbd7, 0 0 30px #71c7ec, 0 0 40px #71c7ec, 0 0 50px #71c7ec, 0 0 60px #71c7ec, 0 0 70px #71c7ec;
+  }
+  
+  to {
+    text-shadow: 0 0 20px #1ebbd7, 0 0 30px #189ad3, 0 0 40px #189ad3, 0 0 50px #189ad3, 0 0 60px #189ad3, 0 0 70px #189ad3, 0 0 80px #189ad3;
+  }
+}
+
+
+.game-board {
+	width: 400px;
+	height: 400px;
+	margin: 0 auto;
+	border: 5px solid rgba(65,179,163, 1);
+	border-radius: 10px;
+	display: grid;
+	grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+}
+
+.game-cell {
+	background: rgba(128,199,186, 0.8);
+	border: 5px solid rgba(65,179,163, 0.8);
+	border-radius: 2px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
